@@ -31,7 +31,7 @@ You'll need a valid OpenAI API key with access to compatible models.
 - **gpt-4o** (the latest and fastest GPT-4 model as of mid-2024)
 - **gpt-3.5-turbo-1106** and later versions
 - **gpt-3.5-turbo**
-  and some other models, you can check on OpenAI's website to see which model can use functions and/or tools
+- and some other models, you can check on OpenAI's website to see which model can use functions and/or tools
 
 These models support:
 - `tools` with type "function"
