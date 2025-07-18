@@ -21,27 +21,22 @@ You'll need a valid OpenAI API key with access to compatible models.
 
 ## Model Compatibility
 
-⚠️ **Important**: This code is tightly coupled to the function calling behavior introduced in `gpt-4-1106-preview` and will **only work** with models that support OpenAI's structured function calling.
+⚠️ **Important**: This code is tightly coupled to the function calling behavior and will **only work** with models that support OpenAI's structured function calling.
 
 ### ✅ Compatible Models
 
 - **gpt-4-1106-preview**
-- **gpt-4-0125-preview** 
+- **gpt-4-0125-preview**
+- **gpt-4**
 - **gpt-4o** (the latest and fastest GPT-4 model as of mid-2024)
 - **gpt-3.5-turbo-1106** and later versions
+- **gpt-3.5-turbo**
+  and some other models, you can check on OpenAI's website to see which model can use functions and/or tools
 
 These models support:
 - `tools` with type "function"
 - `tool_choice` for forcing a tool call
 - Return of structured `tool_calls` in the response
-
-### ❌ Incompatible Models
-
-The following models will **NOT** work correctly:
-
-- `gpt-4` (i.e., gpt-4-0314, gpt-4-0613)
-- `gpt-3.5-turbo` before 1106 (e.g., gpt-3.5-turbo-0613)
-- Any older model versions
 
 With incompatible models, you may encounter:
 - No tool call returned at all
