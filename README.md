@@ -71,10 +71,8 @@ python script.py
 
 ### Custom Policy Analysis
 
-Modify the `example_policy` variable in `script.py` or use the function programmatically:
+add in the same directory of the script.py file you IAM policy json and write its name on line 7 in the script.py file such as <FILE_NAME.json>
 
-```python
-from script import classify_iam_policy
 
 # Your IAM policy
 my_policy = {
