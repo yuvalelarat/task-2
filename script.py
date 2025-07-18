@@ -63,32 +63,8 @@ def classify_iam_policy(policy_json: dict) -> dict:
         "reason": function_args["reason"]
     }
 
-example_policy = {
-    "Version": "2022-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "*",
-            "Resource": "*"
-        }
-    ]
-}
+with open("policy2.json", "r") as f: # Load the IAM policy JSON from a file in the same directory
+    policy_json = json.load(f)
 
-# example_policy = {
-#     "Version": "2022-10-17",
-#     "Statement": [
-#         {
-#             "Effect": "Allow",
-#             "Action": "s3:DeleteObject",
-#             "Resource": "arn:aws:s3:::secure-bucket/*",
-#             "Condition": {
-#                 "Bool": {
-#                     "aws:MultiFactorAuthPresent": "true"
-#                 }
-#             }
-#         }
-#     ]
-# }
-
-result = classify_iam_policy(example_policy)
+result = classify_iam_policy(policy_json)
 print(json.dumps(result, indent=2))
