@@ -1,10 +1,8 @@
-import json
 from config import OPENAI_API_KEY
 from openai import OpenAI
+import json
 
 client = OpenAI(api_key=OPENAI_API_KEY)
-
-JSON_FILE_NAME = "YOUR_POLICY_FILE.json"  #replace with your IAM policy JSON file name
 
 def classify_iam_policy(policy_json: dict) -> dict:
     messages = [
@@ -64,9 +62,3 @@ def classify_iam_policy(policy_json: dict) -> dict:
         "classification": function_args["classification"],
         "reason": function_args["reason"]
     }
-
-with open(JSON_FILE_NAME, "r") as f: # Load the IAM policy JSON from a file in the same directory
-    policy_json = json.load(f)
-
-result = classify_iam_policy(policy_json)
-print(json.dumps(result, indent=2))
