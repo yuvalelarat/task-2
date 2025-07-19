@@ -2,14 +2,6 @@ import json
 import os
 from classify_script import classify_iam_policy
 
-# JSON_FILE_NAME = "YOUR_POLICY_FILE.json"  #replace with your IAM policy JSON file name
-
-# with open(JSON_FILE_NAME, "r") as f: # Load the IAM policy JSON from a file in the same directory
-#     policy_json = json.load(f)
-
-# result = classify_iam_policy(policy_json)
-# print(json.dumps(result, indent=2))
-
 def get_json_from_input():
     print("Paste your IAM JSON policy below. End your input with an empty line:")
     lines = []

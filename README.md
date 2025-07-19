@@ -1,23 +1,27 @@
-# IAM Policy Classifier
+## Prerequisites
 
-A Python tool that uses OpenAI's GPT models to classify AWS IAM policies as "Weak" or "Strong" based on security best practices. The tool leverages OpenAI's structured function calling to ensure reliable, injection-resistant policy analysis.
-
-## Features
-
-- 🔒 **Secure Analysis**: Uses OpenAI's function calling to prevent prompt injection attacks
-- 📊 **Binary Classification**: Classifies policies as "Weak" or "Strong"
-- 💡 **Detailed Explanations**: Provides reasoning for each classification
-- 🛡️ **Injection-Resistant**: System prompts ignore embedded instructions in policy content
-
-## Requirements
-
-### Python Dependencies
 - Python 3.7+
-- openai==1.97.0
-- python-dotenv==1.1.1
+- OpenAI API key
+- pip (Python package installer)
 
-### OpenAI API Key
-You'll need a valid OpenAI API key with access to compatible models.
+## Installation
+
+1. **Clone or download the project**:
+   ```bash
+   git clone <repository-url>
+   cd task-2
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Set up environment variables**:
+   Create a `.env` file in the project root and add your OpenAI API key:
+   ```
+   OPENAI_API_KEY=your_openai_api_key_here
+   ```
 
 ## Model Compatibility
 
@@ -43,128 +47,44 @@ With incompatible models, you may encounter:
 - Freeform string completions instead of structured JSON
 - Errors if `tool_choice` is enforced but the model can't comply
 
-## Installation
-
-1. **Clone or download this repository**
-
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Set up environment variables**:
-   
-   Create a `.env` file in the project root:
-   ```env
-   OPENAI_API_KEY=your_openai_api_key_here
-   ```
-
 ## Usage
 
-### Basic Usage
+### Running the Application
 
-Run the script with the example policy:
-
+Execute the main application:
 ```bash
-python script.py
+python app.py
 ```
 
-### Custom Policy Analysis
+### Input Options
 
-add in the same directory of the script.py file you IAM policy json and write its name on line 7 in the script.py file such as <FILE_NAME.json>
+The application provides two ways to input IAM policies:
 
+1. **Paste JSON directly**: 
+   - Select option 1
+   - Paste your IAM policy JSON
+   - Press Enter on an empty line to finish
 
-# Your IAM policy
-my_policy = {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::my-bucket/*"
-        }
-    ]
-}
+2. **Select from files**:
+   - Select option 2
+   - Choose from available JSON files in the current directory
 
-# Classify the policy
-result = classify_iam_policy(my_policy)
-print(f"Classification: {result['classification']}")
-print(f"Reason: {result['reason']}")
-```
+## API Reference
 
-## Example Output
+### classify_iam_policy(policy_json: dict) -> dict
 
-```json
-{
-  "policy": {
-    "Version": "2022-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Action": "s3:DeleteObject",
-        "Resource": "arn:aws:s3:::secure-bucket/*",
-        "Condition": {
-          "Bool": {
-            "aws:MultiFactorAuthPresent": "true"
-          }
-        }
-      }
-    ]
-  },
-  "classification": "Strong",
-  "reason": "This policy is classified as Strong because it implements several security best practices: it has a specific resource ARN limiting scope to a particular S3 bucket, uses a least-privilege action (s3:DeleteObject rather than s3:*), and importantly requires MFA authentication through the aws:MultiFactorAuthPresent condition, which adds an extra layer of security for destructive operations."
-}
-```
+Classifies an IAM policy using OpenAI's GPT-4 model.
 
-## How It Works
+**Parameters:**
+- `policy_json` (dict): The IAM policy JSON object to classify
 
-1. **System Prompt**: Establishes the AI as a security analyst with strict instructions to only use the function calling interface
-2. **Function Definition**: Defines a structured schema for policy classification
-3. **Forced Function Call**: Uses `tool_choice` to ensure the model responds only via the defined function
-4. **Structured Output**: Parses the JSON response to extract classification and reasoning
+**Returns:**
+- `dict`: Classification result containing:
+  - `policy`: The original policy JSON
+  - `classification`: "Weak" or "Strong"
+  - `reason`: Detailed explanation of the classification
 
-## Security Considerations
+## Dependencies
 
-- The system prompt explicitly instructs the AI to ignore any instructions embedded within IAM policies
-- Function calling prevents the model from generating arbitrary text responses
-- The structured schema ensures consistent output format
-
-## File Structure
-
-```
-.
-├── script.py           # Main classification script
-├── config.py          # Configuration and API key management  
-├── requirements.txt    # Python dependencies
-├── .env               # Environment variables (create this)
-└── README.md          # This file
-```
-
-## Troubleshooting
-
-### Common Issues
-
-1. **"No tool calls found"**: Ensure you're using a compatible model (see compatibility section)
-2. **API Key errors**: Verify your `.env` file contains a valid `OPENAI_API_KEY`
-3. **Module not found**: Run `pip install -r requirements.txt`
-
-### Model Switching
-
-To change the model, modify line 43 in `script.py`:
-
-```python
-response = client.chat.completions.create(
-    model="gpt-4o",  # Change this to your preferred compatible model
-    messages=messages,
-    tools=tools,
-    tool_choice={"type": "function", "function": {"name": "classify_iam_policy"}}
-)
-```
-
-## License
-
-This project is provided as-is for educational and security analysis purposes.
-
-## Contributing
-
-Feel free to submit issues and enhancement requests!
+- `openai==1.97.0`: OpenAI Python client library
+- `python-dotenv==1.1.1`: Environment variable management
